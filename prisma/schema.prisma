@@ -9,3 +9,12 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Note {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  title     String
+  content   String?
+  colour    String?  @default("transparent")
+  bgImage   String?  @default("")
+}
