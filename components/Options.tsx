@@ -24,7 +24,7 @@ const Options = ({ note, bg, bgImageFn }: notesProps) => {
   const router = useRouter();
   const [showBackgrounds, setShowBackgrounds] = useState(false);
   const deleteHandler = async (deletedNote: iNote) => {
-    const data = await fetch("/api/deleteNote", {
+    const data = await fetch("/api/notes", {
       method: "DELETE",
       body: JSON.stringify({
         id: deletedNote.id,

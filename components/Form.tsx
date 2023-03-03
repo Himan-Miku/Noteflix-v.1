@@ -34,7 +34,7 @@ const Form = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const noteBody = await fetch("/api/createNote", {
+    const noteBody = await fetch("/api/notes", {
       method: "POST",
       body: JSON.stringify({
         title: inputs.title,

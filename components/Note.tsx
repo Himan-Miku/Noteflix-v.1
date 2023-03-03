@@ -10,7 +10,7 @@ const Note = ({ note }: noteProps) => {
   const { title, content, id } = note;
 
   const bg = async (color: string) => {
-    const noteColor = await fetch("/api/noteColor", {
+    const noteColor = await fetch("/api/notes", {
       method: "PATCH",
       body: JSON.stringify({
         colour: color,
@@ -24,7 +24,7 @@ const Note = ({ note }: noteProps) => {
   };
 
   const bgImageFn = async (image: string) => {
-    const noteImage = await fetch("/api/noteBg", {
+    const noteImage = await fetch("/api/notes", {
       method: "PATCH",
       body: JSON.stringify({
         id: id,

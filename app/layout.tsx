@@ -39,7 +39,9 @@ export default async function RootLayout({
             </div>
           </>
         ) : (
-          <Landing />
+          <div>
+            <Landing />
+          </div>
         )}
       </body>
     </html>

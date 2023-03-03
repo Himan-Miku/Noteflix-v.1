@@ -3,7 +3,7 @@ import Note from "@/components/Note";
 import { iNote } from "@/components/Options";
 
 async function getNotes() {
-  const res = await fetch(`${process.env.BASE_URL}/api/getNotes`);
+  const res = await fetch(`${process.env.BASE_URL}/api/notes`);
   if (!res.ok) {
     console.log("🚀 ~ file: page.tsx:7 ~ getNotes ~ ̥:", res);
   }
@@ -14,9 +14,7 @@ async function getNotes() {
 export default async function Home() {
   const notes = await getNotes();
 
-  // notes.map((note) => {
-  //   console.log("🚀 ~ file: page.tsx:20 ~ Home ~ note:", note);
-  // });
+  console.log(notes);
 
   return (
     <main className="cal-h overflow-y-auto scrollbar px-20 pt-10 pb-8">
