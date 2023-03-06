@@ -54,7 +54,8 @@ export async function DELETE(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const session = await getServerSession(authOptions);
+    const session: any = await getServerSession(authOptions);
+    console.log("session: in POST handler: ", session);
 
     if (!session) {
       return NextResponse.json({
@@ -68,6 +69,7 @@ export async function POST(request: NextRequest) {
       },
     });
     const body: newNote = await request.json();
+    console.log("body: ", body);
 
     try {
       const note = await client.note.create({
@@ -77,6 +79,8 @@ export async function POST(request: NextRequest) {
           userId: prismaUser?.id!,
         },
       });
+
+      console.log("Note in prisma: ", note);
 
       return NextResponse.json(note);
     } catch (error) {
