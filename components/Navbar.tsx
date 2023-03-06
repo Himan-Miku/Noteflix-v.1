@@ -1,11 +1,11 @@
 import Login from "./Login";
 import Logout from "./Logout";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 
 const Navbar = async () => {
   const session = await getServerSession(authOptions);
-  console.log(session);
+  // console.log(session);
 
   return (
     <div className="flex border-b border-gray-500 justify-between items-center px-4 py-2">

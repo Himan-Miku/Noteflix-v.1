@@ -1,6 +1,6 @@
 import client from "@/prisma/prismaClient";
 import { NextRequest, NextResponse } from "next/server";
-import { authOptions } from "../auth/[...nextauth]";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 
 export interface deletedNote {
