@@ -1,118 +1,85 @@
-import client from "@/prisma/prismaClient";
 import { NextRequest, NextResponse } from "next/server";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
+import client from "@/prisma/prismaClient";
+import { postNote } from "@/components/Form";
+import { deletedNote } from "@/components/Options";
 
-export interface deletedNote {
-  id: string;
-  title: string;
-}
+// export async function GET(request: NextRequest, response: NextResponse) {
+//   try {
+//     const notes = await client.note.findMany({
+//       orderBy: {
+//         createdAt: "desc",
+//       },
+//     });
+//     console.log(notes);
+//     return NextResponse.json(notes, { status: 201 });
+//   } catch (error) {
+//     return NextResponse.json({ error: error }, { status: 500 });
+//   }
+// } ------> This is working / sending json object successfully but idk why fetch api from page.tsx can't fetch it properly and is logging an empty object {} 🥲
 
-export interface newNote {
-  title: string;
-  content: string;
-}
-
-export interface bgNote {
-  id: string;
-  bgImage: string;
-  colour: string;
-}
-
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest, response: NextResponse) {
   try {
-    const notes = client.note.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
-    return NextResponse.json(notes);
-  } catch (error) {
-    return NextResponse.json({
-      message: "Something went wrong while fetching all the notes!",
-    });
-  }
-}
+    const session = await getServerSession(authOptions);
 
-export async function DELETE(request: NextRequest) {
-  try {
-    const body: deletedNote = await request.json();
+    console.log("From POST: ", session);
 
-    const note = await client.note.delete({
-      where: {
-        id: body.id,
-      },
-    });
+    const noteBody: postNote = await request.json();
 
-    return NextResponse.json(note);
-  } catch (error) {
-    return NextResponse.json({
-      message: "Something went wrong while deleting the note!",
-    });
-  }
-}
+    console.log("noteBody in POST handler: ", noteBody);
 
-export async function POST(request: NextRequest) {
-  try {
-    const session: any = await getServerSession(authOptions);
-    console.log("session: in POST handler: ", session);
-
-    if (!session) {
-      return NextResponse.json({
-        message: "Please Sign In first to use the application!",
-      });
-    }
-
-    const prismaUser = await client.user.findUnique({
-      where: {
-        email: session?.user?.email!,
-      },
-    });
-    const body: newNote = await request.json();
-    console.log("body: ", body);
-
-    try {
-      const note = await client.note.create({
-        data: {
-          title: body.title,
-          content: body.content,
-          userId: prismaUser?.id!,
+    if (session) {
+      const prismaUser = await client.user.findUnique({
+        where: {
+          email: session.user?.email!,
         },
       });
 
-      console.log("Note in prisma: ", note);
-
-      return NextResponse.json(note);
-    } catch (error) {
-      return NextResponse.json({
-        message: "Something went wrong while adding the note to the database",
-      });
+      try {
+        const note = await client.note.create({
+          data: {
+            title: noteBody.title,
+            content: noteBody.content,
+            userId: prismaUser?.id!,
+          },
+        });
+        console.log("Created Note from POST handler: ", note);
+        return NextResponse.json(note, { status: 201 });
+      } catch (err) {
+        return NextResponse.json({ error: err }, { status: 500 });
+      }
+    } else {
+      return NextResponse.json(
+        { message: "Please Sign In to create Notes" },
+        { status: 401 }
+      );
     }
   } catch (error) {
-    return NextResponse.json({
-      message: "Something went wrong while identifying the session and user!",
-    });
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
 
-export async function PATCH(request: NextRequest) {
+export async function DELETE(request: NextRequest, response: NextResponse) {
   try {
-    const body: bgNote = await request.json();
+    const dNote: deletedNote = await request.json();
+    console.log(dNote);
 
-    const modNote = await client.note.update({
+    const DNote = await client.note.delete({
       where: {
-        id: body.id,
-      },
-      data: {
-        bgImage: body.bgImage,
-        colour: body.colour,
+        id: dNote.id,
       },
     });
-
-    return NextResponse.json(modNote);
+    console.log(DNote);
+    return NextResponse.json(DNote, { status: 201 });
   } catch (error) {
-    return NextResponse.json({
-      message: "Something went wrong while modifying the background of note!",
-    });
+    return NextResponse.json({ error: error }, { status: 500 });
+  }
+}
+
+export async function PATCH(request: NextRequest, response: NextResponse) {
+  try {
+  } catch (error) {
+    return NextResponse.json({ error: error }, { status: 500 });
   }
 }
