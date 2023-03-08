@@ -11,6 +11,12 @@ type noteProps = {
   colour: string | null;
 };
 
+export interface modNote {
+  id: string;
+  colour?: string;
+  bgImage?: string;
+}
+
 const Note = ({ id, content, title, bgImage, colour }: noteProps) => {
   const router = useRouter();
 

@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import client from "@/prisma/prismaClient";
 import { postNote } from "@/components/Form";
 import { deletedNote } from "@/components/Options";
+import { modNote } from "@/components/Note";
 
 // export async function GET(request: NextRequest, response: NextResponse) {
 //   try {
@@ -62,12 +63,12 @@ export async function POST(request: NextRequest, response: NextResponse) {
 
 export async function DELETE(request: NextRequest, response: NextResponse) {
   try {
-    const dNote: deletedNote = await request.json();
-    console.log(dNote);
+    const delNote: deletedNote = await request.json();
+    console.log(delNote);
 
     const DNote = await client.note.delete({
       where: {
-        id: dNote.id,
+        id: delNote.id,
       },
     });
     console.log(DNote);
@@ -79,6 +80,34 @@ export async function DELETE(request: NextRequest, response: NextResponse) {
 
 export async function PATCH(request: NextRequest, response: NextResponse) {
   try {
+    const modifyNote: modNote = await request.json();
+    console.log(modifyNote);
+
+    if (modifyNote.bgImage) {
+      const MNote = await client.note.update({
+        where: {
+          id: modifyNote.id,
+        },
+        data: {
+          bgImage: modifyNote.bgImage,
+        },
+      });
+      console.log(MNote);
+      return NextResponse.json(MNote, { status: 201 });
+    }
+
+    if (modifyNote.colour) {
+      const MNote = await client.note.update({
+        where: {
+          id: modifyNote.id,
+        },
+        data: {
+          colour: modifyNote.colour,
+        },
+      });
+      console.log(MNote);
+      return NextResponse.json(MNote, { status: 201 });
+    }
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });
   }
