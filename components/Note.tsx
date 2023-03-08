@@ -1,13 +1,18 @@
+"use client";
+
 import Options, { iNote } from "./Options";
 import { useRouter } from "next/navigation";
 
 type noteProps = {
-  note: iNote;
+  id: string;
+  content: string | null;
+  title: string;
+  bgImage: string | null;
+  colour: string | null;
 };
 
-const Note = ({ note }: noteProps) => {
+const Note = ({ id, content, title, bgImage, colour }: noteProps) => {
   const router = useRouter();
-  const { title, content, id } = note;
 
   const bg = async (color: string) => {
     const noteColor = await fetch("/api/notes", {
@@ -40,11 +45,11 @@ const Note = ({ note }: noteProps) => {
   return (
     <div
       style={{
-        backgroundImage: `url(${note.bgImage})`,
+        backgroundImage: `url(${bgImage})`,
         backgroundPositionX: "right",
         backgroundPositionY: "bottom",
         backgroundSize: "cover",
-        backgroundColor: note.colour,
+        backgroundColor: colour!,
       }}
       className={`inline-block p-3 mb-4 w-full h-max border border-1 border-[#575B5F] rounded-lg`}
     >
@@ -57,7 +62,15 @@ const Note = ({ note }: noteProps) => {
         </p>
       </div>
       <div>
-        <Options note={note} bg={bg} bgImageFn={bgImageFn} />
+        <Options
+          id={id}
+          title={title}
+          content={content}
+          bgImage={bgImage}
+          colour={colour}
+          bg={bg}
+          bgImageFn={bgImageFn}
+        />
       </div>
     </div>
   );

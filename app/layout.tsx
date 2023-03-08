@@ -24,6 +24,8 @@ export default async function RootLayout({
 }) {
   const session = await getServerSession(authOptions);
 
+  console.log("Session from layout: ", session);
+
   return (
     <html className="overflow-hidden" lang="en">
       <body className={`${poppins.className} bg-[#202124]`}>

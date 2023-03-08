@@ -6,29 +6,46 @@ import { useState } from "react";
 
 export interface iNote {
   id: string;
-  createdAt: string;
+  createdAt: Date;
   title: string;
-  content: string;
-  colour: string;
-  bgImage: string;
+  content: string | null;
+  colour: string | null;
+  bgImage: string | null;
   userId: string;
 }
 
 interface notesProps {
-  note: iNote;
+  id: string;
+  content: string | null;
+  title: string;
+  bgImage: string | null;
+  colour: string | null;
   bg: (color: string) => void;
   bgImageFn: (image: string) => void;
 }
 
-const Options = ({ note, bg, bgImageFn }: notesProps) => {
+export interface deletedNote {
+  id: string;
+  title: string;
+}
+
+const Options = ({
+  content,
+  title,
+  bgImage,
+  colour,
+  id,
+  bg,
+  bgImageFn,
+}: notesProps) => {
   const router = useRouter();
   const [showBackgrounds, setShowBackgrounds] = useState(false);
-  const deleteHandler = async (deletedNote: iNote) => {
+  const deleteHandler = async ({ id, title }: deletedNote) => {
     const data = await fetch("/api/notes", {
       method: "DELETE",
       body: JSON.stringify({
-        id: deletedNote.id,
-        title: deletedNote.title,
+        id,
+        title,
       }),
     });
     const res = await data.json();
@@ -39,7 +56,7 @@ const Options = ({ note, bg, bgImageFn }: notesProps) => {
     <div>
       <button
         className="bg-transparent hover:bg-[#2f3033] text-white font-bold p-2 rounded-full"
-        onClick={() => deleteHandler(note)}
+        onClick={() => deleteHandler({ id, title })}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

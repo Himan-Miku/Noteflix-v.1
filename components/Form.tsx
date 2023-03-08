@@ -4,6 +4,11 @@ import { BsFillPatchPlusFill } from "react-icons/bs";
 import { useState, useRef, useEffect, RefObject, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 
+export interface postNote {
+  title: string;
+  content: string | null;
+}
+
 const Form = () => {
   const router = useRouter();
   const formRef = useRef(null);
