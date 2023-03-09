@@ -22,7 +22,7 @@ const Logout = ({ image }: UserProps) => {
         />
       </Link>
       <button
-        className="px-4 py-2 text-[#9f404085] rounded-lg border border-[#9f404085] m-1 w-full hover:bg-[#9f404085] hover:text-[#06000a]"
+        className="px-4 py-2 text-gray-300 rounded-lg border border-1 border-[#575B5F] m-1 w-full bg-[#9f4040a7] transition-all duration-500 hover:bg-[#9f4040c7] hover:-translate-y-[1px]"
         onClick={() => signOut()}
       >
         Sign Out

@@ -37,7 +37,7 @@ const Sidebar = () => {
             <div
               className={`group flex gap-8 font-medium rounded-tr-full rounded-br-full text-gray-300 border-none px-4 py-3 text-[1.05rem] cursor-pointer ${
                 pathname === item.path
-                  ? "bg-none bg-[#41331C]"
+                  ? "bg-none bg-[#9f4040a7]"
                   : "bg-none hover:text-gray-300 hover:bg-[#28292C]"
               }`}
             >
