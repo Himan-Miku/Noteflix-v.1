@@ -1,6 +1,5 @@
 import Form from "@/components/Form";
 import Note from "@/components/Note";
-import { iNote } from "@/components/Options";
 import client from "@/prisma/prismaClient";
 
 // const getData = async () => {
@@ -29,7 +28,6 @@ export default async function Home() {
             title={note.title}
             content={note.content}
             bgImage={note.bgImage}
-            colour={note.colour}
           />
         ))}
       </div>

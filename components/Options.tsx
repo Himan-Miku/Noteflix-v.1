@@ -1,6 +1,6 @@
 "use client";
 
-import { bgImages, colors } from "@/utils/backgrounds";
+import { bgImages } from "@/utils/backgrounds";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -9,7 +9,6 @@ export interface iNote {
   createdAt: Date;
   title: string;
   content: string | null;
-  colour: string | null;
   bgImage: string | null;
   userId: string;
 }
@@ -19,8 +18,6 @@ interface notesProps {
   content: string | null;
   title: string;
   bgImage: string | null;
-  colour: string | null;
-  bg: (color: string) => void;
   bgImageFn: (image: string) => void;
 }
 
@@ -29,15 +26,7 @@ export interface deletedNote {
   title: string;
 }
 
-const Options = ({
-  content,
-  title,
-  bgImage,
-  colour,
-  id,
-  bg,
-  bgImageFn,
-}: notesProps) => {
+const Options = ({ content, title, bgImage, id, bgImageFn }: notesProps) => {
   const router = useRouter();
   const [showBackgrounds, setShowBackgrounds] = useState(false);
   const deleteHandler = async ({ id, title }: deletedNote) => {
@@ -100,20 +89,19 @@ const Options = ({
         {showBackgrounds && (
           <div className="absolute -right-56 top-11 rounded-lg box-shadow-color bg-[#202124] p-4">
             <div className="flex justify-center items-center gap-1 mb-2">
-              {colors.map((color) => (
+              {bgImages.slice(0, 10).map((image) => (
                 <div
-                  key={color.id}
-                  style={{ backgroundColor: color.colour }}
-                  onClick={() => bg(color.colour)}
-                  className={`rounded-full w-8 h-8 cursor-pointer hover:border-2 hover:border-white flex justify-center items-center`}
+                  key={image.imageId}
+                  className="rounded-full w-9 h-9 cursor-pointer hover:border-2 hover:border-white flex justify-center items-center"
+                  onClick={() => bgImageFn(image.svgSrc)}
                 >
-                  <img src={color?.imgSvgSrc} className="w-[80%]" />
+                  <img src={image.coverPic} className="w-[100%] rounded-full" />
                 </div>
               ))}
             </div>
             <hr className="border border-[#575B5F]" />
             <div className="flex justify-center items-center gap-1 mt-2">
-              {bgImages.map((image) => (
+              {bgImages.slice(10).map((image) => (
                 <div
                   key={image.imageId}
                   className="rounded-full w-9 h-9 cursor-pointer hover:border-2 hover:border-white flex justify-center items-center"

@@ -83,31 +83,16 @@ export async function PATCH(request: NextRequest, response: NextResponse) {
     const modifyNote: modNote = await request.json();
     console.log(modifyNote);
 
-    if (modifyNote.bgImage) {
-      const MNote = await client.note.update({
-        where: {
-          id: modifyNote.id,
-        },
-        data: {
-          bgImage: modifyNote.bgImage,
-        },
-      });
-      console.log(MNote);
-      return NextResponse.json(MNote, { status: 201 });
-    }
-
-    if (modifyNote.colour) {
-      const MNote = await client.note.update({
-        where: {
-          id: modifyNote.id,
-        },
-        data: {
-          colour: modifyNote.colour,
-        },
-      });
-      console.log(MNote);
-      return NextResponse.json(MNote, { status: 201 });
-    }
+    const MNote = await client.note.update({
+      where: {
+        id: modifyNote.id,
+      },
+      data: {
+        bgImage: modifyNote.bgImage,
+      },
+    });
+    console.log(MNote);
+    return NextResponse.json(MNote, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: error }, { status: 500 });
   }

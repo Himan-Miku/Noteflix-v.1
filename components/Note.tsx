@@ -8,31 +8,15 @@ type noteProps = {
   content: string | null;
   title: string;
   bgImage: string | null;
-  colour: string | null;
 };
 
 export interface modNote {
   id: string;
-  colour?: string;
-  bgImage?: string;
+  bgImage: string;
 }
 
-const Note = ({ id, content, title, bgImage, colour }: noteProps) => {
+const Note = ({ id, content, title, bgImage }: noteProps) => {
   const router = useRouter();
-
-  const bg = async (color: string) => {
-    const noteColor = await fetch("/api/notes", {
-      method: "PATCH",
-      body: JSON.stringify({
-        colour: color,
-        id: id,
-      }),
-    });
-    const colouredNote: iNote = await noteColor.json();
-    console.log(colouredNote);
-
-    router.refresh();
-  };
 
   const bgImageFn = async (image: string) => {
     const noteImage = await fetch("/api/notes", {
@@ -55,7 +39,6 @@ const Note = ({ id, content, title, bgImage, colour }: noteProps) => {
         backgroundPositionX: "right",
         backgroundPositionY: "bottom",
         backgroundSize: "cover",
-        backgroundColor: colour!,
       }}
       className={`inline-block p-3 mb-4 w-full h-max border border-1 border-[#575B5F] rounded-lg`}
     >
@@ -73,8 +56,6 @@ const Note = ({ id, content, title, bgImage, colour }: noteProps) => {
           title={title}
           content={content}
           bgImage={bgImage}
-          colour={colour}
-          bg={bg}
           bgImageFn={bgImageFn}
         />
       </div>
