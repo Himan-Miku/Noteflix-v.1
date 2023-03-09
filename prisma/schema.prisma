@@ -15,7 +15,6 @@ model Note {
   createdAt DateTime @default(now())
   title     String
   content   String?
-  colour    String?  @default("transparent")
   bgImage   String?  @default("")
   userId    String
   user      User     @relation(fields: [userId], references: [id])
