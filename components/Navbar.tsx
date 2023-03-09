@@ -9,7 +9,7 @@ const Navbar = async () => {
 
   return (
     <div className="flex border-b border-gray-500 justify-between items-center px-4 py-2">
-      <div className="flex gap-2 items-center justify-center">
+      <div className="flex gap-4 items-center justify-center">
         <img className="w-10" src="/aka.png" alt="logo" />
         <h1 className="font-bold text-xl text-[#E9E9E9]">Noteflix</h1>
       </div>
