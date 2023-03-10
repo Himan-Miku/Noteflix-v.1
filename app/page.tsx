@@ -1,5 +1,5 @@
 import Form from "@/components/Form";
-import Note from "@/components/Note";
+import Notes from "@/components/Notes";
 import client from "@/prisma/prismaClient";
 
 // const getData = async () => {
@@ -20,17 +20,7 @@ export default async function Home() {
   return (
     <main className="cal-h overflow-y-auto scrollbar px-20 pt-10 pb-8">
       <Form />
-      <div className="notes-columns gap-4 p-4 my-8">
-        {notes.map((note) => (
-          <Note
-            key={note.id}
-            id={note.id}
-            title={note.title}
-            content={note.content}
-            bgImage={note.bgImage}
-          />
-        ))}
-      </div>
+      <Notes note={notes} />
     </main>
   );
 }
